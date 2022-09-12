@@ -6,9 +6,11 @@
 
 App::~App()
 {
-    if (tt.joinable())
+    if (tt.joinable()) 
+    {
         tt.join();
-
+        std::cout << "Joined the thread that run the timer function in the application" << std::endl;
+    }
 }
 
 void App::run() 
@@ -21,6 +23,7 @@ void App::start(App* app)
 {
     // std::cout << " about to run the timer " << std::endl;
     app->timer(std::chrono::seconds(15));
+    return;
 }
 
 void App::timer( std::chrono::duration<int,std::ratio<1,1>> const&  timeout_duration ) 

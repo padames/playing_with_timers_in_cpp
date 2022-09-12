@@ -10,7 +10,11 @@ Timer::Timer(size_t time, const std::function<void(void)>& f)
 Timer::~Timer() 
 { 
     if (wait_thread_.joinable())
-    wait_thread_.join(); 
+    {
+        wait_thread_.join(); 
+        std::cout << "Joined the Timer object in its destructor!" << std::endl;
+    }
+
 }
 
 void Timer::wait_then_call()

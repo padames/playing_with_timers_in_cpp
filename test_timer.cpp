@@ -13,7 +13,7 @@ int main() {
 
     the_app.run();
 
-    Timer timer{5000, []() { std::cout<< "done!!" << std::endl;}};
+    Timer timer{5000, [&]() { std::cout<< "done!!" << std::endl;}};
 
 
     std::cout << " waiting for the timer to expire (s): ";
