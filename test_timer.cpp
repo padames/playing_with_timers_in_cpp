@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Timer.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -11,6 +12,9 @@ int main() {
     App the_app{};
 
     the_app.run();
+
+    Timer timer{5000, []() { std::cout<< "done!!" << std::endl;}};
+
 
     std::cout << " waiting for the timer to expire (s): ";
 
