@@ -20,7 +20,7 @@ void SSThread::run() {
     std::cout << "thread started\n";
     try {
         while (true) {
-            cpoint_.wait<std::chrono::duration<double, std::ratio<1,1>>>(std::chrono::seconds(1));
+            cpoint_.wait(std::chrono::seconds(1));
         }
     } catch (const cancelled_error&) {
         std::cout << "thread cancelled\n";
