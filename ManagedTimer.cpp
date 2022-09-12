@@ -4,13 +4,20 @@
 
 
 ManagedTimer::ManagedTimer(size_t time, const std::function<void(void)>& f) 
-    : time_{std::chrono::milliseconds{time}}, f_{f} 
+    : is_running_{false}, time_{std::chrono::milliseconds{time}}, f_{f} 
 {}
 
 void ManagedTimer::start() 
 {
-    wait_thread_ = std::unique_ptr<std::thread>(
-        new std::thread(std::bind(&ManagedTimer::run, this)));
+    if (!is_running_)
+    {
+        wait_thread_ = std::unique_ptr<std::thread>(
+            new std::thread(std::bind(&ManagedTimer::run, this)));
+    }
+    else
+    {
+        std::cout << "MangedTimer ran already" << std::endl;
+    }
 }
 
 void ManagedTimer::stop() 
@@ -26,6 +33,9 @@ void ManagedTimer::stop()
 
 void ManagedTimer::run() 
 {
+    if (!is_running_)
+        is_running_ = true;
+
     std::cout << "thread started\n";
     try {
         std::unique_lock<std::mutex> lck{mtx_};
