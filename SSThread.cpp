@@ -3,6 +3,7 @@
 
 #include "Cancellation.h"
 #include "SSThread.h"
+#include <condition_variable>
 
 void SSThread::start() {
         thread_ = std::unique_ptr<std::thread>(
@@ -20,7 +21,7 @@ void SSThread::run() {
     std::cout << "thread started\n";
     try {
         while (true) {
-            cpoint_.wait(std::chrono::seconds(1));
+            cpoint_.wait(1);
         }
     } catch (const cancelled_error&) {
         std::cout << "thread cancelled\n";

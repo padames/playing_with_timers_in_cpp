@@ -23,8 +23,8 @@ all: $(OBJECTS) $(BUILD)
 
 # $(OBJECTS): %.o: %.cpp
 $(OBJECTS): App.cpp  test_timer.cpp
-	$(CC) $(CFLAGS) -c Cancellation.cpp -o Cancellation.o
 	$(CC) $(CFLAGS) -c SSThread.cpp -o SSThread.o
+	$(CC) $(CFLAGS) -c Cancellation.cpp -o Cancellation.o
 	$(CC) $(CFLAGS) -c Timer.cpp -o Timer.o
 	$(CC) $(CFLAGS) -c App.cpp -o App.o
 	$(CC) $(CFLAGS) -c test_timer.cpp -o test_timer.o

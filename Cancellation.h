@@ -13,8 +13,7 @@ public:
 
     void cancel(); 
 
-    template <typename P>
-    void wait(const P& period);
+    void wait(int seconds);
 private:
     bool stop_;
     std::mutex mutex_;

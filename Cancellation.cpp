@@ -13,11 +13,11 @@ void Cancellation::cancel()
     cond_.notify_all();
 }
 
-template <typename P>
-void Cancellation::wait(const P& period) 
+void Cancellation::wait(int seconds) 
 {
     std::unique_lock<std::mutex> lock(mutex_);
-    if (stop_ || cond_.wait_for(lock, period) == std::cv_status::no_timeout) {
+    auto t = std::chrono::seconds(seconds);
+    if (stop_ || cond_.wait_for(lock, t) == std::cv_status::no_timeout) {
         stop_ = false;
         throw cancelled_error();
     }
