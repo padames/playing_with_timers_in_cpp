@@ -9,7 +9,7 @@ LFLAGS = -lstdc++fs
  
 # The build target 
 TARGET = test_timer
-OBJECTS = App.o test_timer.o Timer.o Cancellation.o SSThread.o
+OBJECTS = App.o test_timer.o Timer.o Cancellation.o SSThread.o ManagedTimer.o
 BUILD = build
 PROJECT_OUTPUT = $(BUILD)/$(TARGET)
 
@@ -25,6 +25,7 @@ all: $(OBJECTS) $(BUILD)
 $(OBJECTS): App.cpp  test_timer.cpp
 	$(CC) $(CFLAGS) -c SSThread.cpp -o SSThread.o
 	$(CC) $(CFLAGS) -c Cancellation.cpp -o Cancellation.o
+	$(CC) $(CFLAGS) -c ManagedTimer.cpp -o ManagedTimer.o
 	$(CC) $(CFLAGS) -c Timer.cpp -o Timer.o
 	$(CC) $(CFLAGS) -c App.cpp -o App.o
 	$(CC) $(CFLAGS) -c test_timer.cpp -o test_timer.o

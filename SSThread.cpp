@@ -6,9 +6,9 @@
 #include <condition_variable>
 
 void SSThread::start() {
-        thread_ = std::unique_ptr<std::thread>(
-            new std::thread(std::bind(&SSThread::run, this)));
-    }
+    thread_ = std::unique_ptr<std::thread>(
+        new std::thread(std::bind(&SSThread::run, this)));
+}
 
 
 void SSThread::stop() {
