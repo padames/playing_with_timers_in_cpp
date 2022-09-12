@@ -13,6 +13,10 @@ OBJECTS = App.o test_timer.o #clear.o
 BUILD = build
 PROJECT_OUTPUT = $(BUILD)/$(TARGET)
 
+.PHONY: run
+run: clean all
+	./build/test_timer
+
 all: $(OBJECTS) $(BUILD) 
 	$(CC) $(CFLAGS) $(LFLAGS) $(OBJECTS) -o $(PROJECT_OUTPUT)
 	# g++ -std=c++17 -lstdc++fs test_timer.cpp -lstdc++fs  -o test_timer

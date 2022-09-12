@@ -2,8 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <map>
-#include "clear.h"
+
 
 class App;
 
@@ -18,9 +17,6 @@ int main() {
     int count = 1;
     while(the_app.isRunning())
     {
-        // std::cout << "\x1B[2J\x1B[H";
-        // std::cout<< u8"\033[2J\033[1;1H"; 
-        // ClearScreen();
         std::cout << count << " "; 
         std::cout.flush(); 
         count++;
