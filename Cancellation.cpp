@@ -16,7 +16,7 @@ void Cancellation::cancel()
 void Cancellation::reset()
 {
     std::unique_lock<std::mutex> lock(mutex_);
-    stop_=false;
+    stop_ = false;
 }
 
 
