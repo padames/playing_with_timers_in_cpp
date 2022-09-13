@@ -8,7 +8,7 @@ Cancellation::Cancellation() : stop_(false) {}
 
 void Cancellation::cancel()
 {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     stop_ = true;
     cond_.notify_all();
 }
@@ -16,7 +16,7 @@ void Cancellation::cancel()
 /// @brief to restore the condition variable for reuse
 void Cancellation::reset()
 {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     stop_ = false;
 }
 
