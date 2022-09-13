@@ -13,6 +13,7 @@ void Cancellation::cancel()
     cond_.notify_all();
 }
 
+/// @brief to restore the condition variable for reuse
 void Cancellation::reset()
 {
     std::unique_lock<std::mutex> lock(mutex_);
