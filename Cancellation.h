@@ -12,7 +12,8 @@ class Cancellation
 public:
     Cancellation();
 
-    void cancel(); 
+    void cancel();
+    void reset(); 
 
     void wait(int seconds);
 private:
