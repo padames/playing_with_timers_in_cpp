@@ -26,17 +26,20 @@ int main() {
     int count = 0;
     while(the_app.isRunning())
     {
-        std::cout << "Main loop: " << count++ << std::endl; 
+        std::cout << "Main loop: " << ++count << std::endl; 
         std::cout.flush(); 
         std::this_thread::sleep_for(std::chrono::seconds(1));
         if (count == 3) {
             timer1.stop();
         }
+        // if (count == 4) {
+        //     timer2.start();
+        // }
     }
     std::cout << std::endl;    
     timer1.stop();
     timer2.stop();    
     timer1.start();
-
+    timer1.stop();
     return 0;
 }
