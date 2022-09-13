@@ -18,6 +18,9 @@ public:
     void stop();
 private:
     void run();
+    /// @brief shuts down gracefully if ctr+C is received
+    /// @param signum 
+    void handleInterrupt(int signum);
     /// @brief to prevent false starts after is being stopped
     std::atomic<bool> is_running_;
     std::unique_ptr<std::thread> wait_thread_;

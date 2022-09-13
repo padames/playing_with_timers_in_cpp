@@ -1,4 +1,5 @@
 #include <memory>
+#include <csignal>
 #include "ManagedTimer.h"
 
 
@@ -9,23 +10,6 @@ ManagedTimer::ManagedTimer(size_t time, const std::function<void(void)>& f)
 
 void ManagedTimer::start() 
 {
-    // if (wait_thread_->joinable()) {
-    //     if (!is_running_)
-    //     {
-    //         std::cout << "starting " << std::endl;
-    //         wait_thread_ = std::unique_ptr<std::thread>(
-    //             new std::thread(std::bind(&ManagedTimer::run, this)));
-    //     }
-    //     else
-    //     {
-    //         std::cout << "MangedTimer already running at " << wait_thread_->get_id() << std::endl;
-    //     }
-    // }
-    // else
-    // {
-    //     std::cout << "MangedTimer is stopped " << std::endl;
-    // }
-
     if (is_running_)
     {
         std::cout << "MangedTimer already running at " << wait_thread_->get_id() << std::endl;
@@ -93,4 +77,13 @@ void ManagedTimer::run()
     } catch (const cancelled_error&) {
         std::cout << "thread cancelled, will stop\n";
     }
+}
+
+
+void ManagedTimer::handleInterrupt(int signum)
+{
+    std::cout << " Caught interrupt signal (ctr+C), stopping first." << std::endl;
+    if(is_running_)
+        stop();
+    exit(signum);
 }

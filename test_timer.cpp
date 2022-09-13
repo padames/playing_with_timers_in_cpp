@@ -4,12 +4,25 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <csignal>
 
 
 class App;
+ManagedTimer* t1;
+ManagedTimer* t2;
+
+void handleInterrupt(int signum)
+{
+    std::cout << " Caught interrupt signal (ctr+C), stopping timers." << std::endl;
+    t1->stop();
+    t2->stop();
+    exit(0);
+}
 
 int main() {
 
+    
+    
     App the_app{};
 
     the_app.run();
@@ -17,7 +30,10 @@ int main() {
     // Timer timer{5000, [&]() { std::cout<< "done!!" << std::endl;}};
     ManagedTimer timer1{5000, [&]() { std::cout<< "First ManagedTimer done!!" << std::endl;}};
     ManagedTimer timer2{2000, [&](){ std::cout<< "second ManagedTimer done!!" << std::endl;}};
+    t1=&timer1;
+    t2=&timer2;
 
+    signal(SIGINT, handleInterrupt);
     timer1.start();
     timer2.start();
 
