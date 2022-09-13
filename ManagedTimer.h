@@ -13,8 +13,8 @@ class Cancellation;
 class ManagedTimer
 {
 public:
-    ManagedTimer(size_t time, const std::function<void(void)>& f);
-    void start();
+    ManagedTimer(const std::function<void(void)>& f);
+    void start(size_t time);
     void stop();
     virtual ~ManagedTimer();
 protected:
@@ -29,7 +29,7 @@ protected:
     std::mutex mtx_;
     std::condition_variable cv_{};
     /// @brief time to run the timer for
-    std::chrono::milliseconds time_;
+    std::chrono::milliseconds time_{};
     std::function <void(void)> f_;
 };
 #endif

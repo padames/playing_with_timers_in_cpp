@@ -13,6 +13,13 @@ void Cancellation::cancel()
     cond_.notify_all();
 }
 
+void Cancellation::reset()
+{
+    std::unique_lock<std::mutex> lock(mutex_);
+    stop_=false;
+}
+
+
 void Cancellation::wait(int seconds) 
 {
     std::unique_lock<std::mutex> lock(mutex_);

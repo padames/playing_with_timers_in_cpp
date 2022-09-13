@@ -28,14 +28,14 @@ int main() {
     the_app.run();
 
     // Timer timer{5000, [&]() { std::cout<< "done!!" << std::endl;}};
-    ManagedTimer* timer1 = new ManagedTimer{5000, [&]() { std::cout<< "First ManagedTimer done!!" << std::endl;}};
-    ManagedTimer timer2{2000, [&](){ std::cout<< "second ManagedTimer done!!" << std::endl;}};
-    t1=timer1;
+    std::unique_ptr timer1 = std::make_unique<ManagedTimer>([&]() { std::cout<< "First ManagedTimer done!!" << std::endl;});
+    ManagedTimer timer2{[&](){ std::cout<< "second ManagedTimer done!!" << std::endl;}};
+    t1=timer1.get();
     t2=&timer2;
 
     signal(SIGINT, handleInterrupt);
-    timer1->start();
-    timer2.start();
+    timer1->start(5000);
+    timer2.start(2000);
 
     std::cout << " waiting for the timer to expire (s): ";
 
@@ -48,16 +48,17 @@ int main() {
         if (count == 3) {
             timer1->stop();
         }
-        // if (count == 4) {
-        //     timer2.start();
-        // }
+        if (count == 4) {
+            timer1->start(3000);
+            // timer2.start(1000);
+        }
     }
     std::cout << std::endl;    
-    // timer1.stop();
-    // timer2.stop();    
-    // timer1.start();
-    // timer1.stop();
-    delete timer1;
-    sleep(10);
+    timer1->stop();
+    timer2.stop();    
+    timer1->start(4000);
+    timer1->stop();
+    timer2.stop();
+    
     return 0;
 }

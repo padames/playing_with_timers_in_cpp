@@ -4,8 +4,8 @@
 
 
 
-ManagedTimer::ManagedTimer(size_t time, const std::function<void(void)>& f) 
-    : is_running_{false}, time_{std::chrono::milliseconds{time}}, f_{f} 
+ManagedTimer::ManagedTimer(const std::function<void(void)>& f) 
+    : is_running_{false}, f_{f} 
 {}
 
 
@@ -14,14 +14,18 @@ ManagedTimer::~ManagedTimer()
     stop();
 }
 
-void ManagedTimer::start() 
+void ManagedTimer::start(size_t time) 
 {
+    std::lock_guard<std::mutex> lk(mtx_);
     if (is_running_)
     {
         std::cout << "MangedTimer already running at " << wait_thread_->get_id() << std::endl;
     }
     else
     {
+        
+        time_ = std::chrono::milliseconds{std::chrono::milliseconds{time}};
+        is_running_ = true;
         std::cout << "starting " << std::endl;
         if (!wait_thread_)
         {
@@ -33,6 +37,7 @@ void ManagedTimer::start()
             wait_thread_ = std::unique_ptr<std::thread>(new std::thread(std::bind(&ManagedTimer::run, this)));
             std::cout << "making a new thread pointer" << std::endl;
         }
+        
     }
 }
 
@@ -40,8 +45,11 @@ void ManagedTimer::stop()
 {
     { 
         std::lock_guard<std::mutex> lk(mtx_);
-        if(is_running_)
+        if(is_running_) 
+        {
             cpoint_.cancel();
+        }
+        cpoint_.reset();
     }
     
     std::cout << " Stopping..." << std::endl;
