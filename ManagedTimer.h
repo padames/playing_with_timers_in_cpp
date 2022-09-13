@@ -16,8 +16,9 @@ public:
     ManagedTimer(size_t time, const std::function<void(void)>& f);
     void start();
     void stop();
-private:
-    void run();
+    virtual ~ManagedTimer();
+protected:
+    virtual void run();
     /// @brief shuts down gracefully if ctr+C is received
     /// @param signum 
     void handleInterrupt(int signum);

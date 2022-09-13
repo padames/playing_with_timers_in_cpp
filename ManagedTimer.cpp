@@ -8,6 +8,12 @@ ManagedTimer::ManagedTimer(size_t time, const std::function<void(void)>& f)
     : is_running_{false}, time_{std::chrono::milliseconds{time}}, f_{f} 
 {}
 
+
+ManagedTimer::~ManagedTimer()
+{
+    stop();
+}
+
 void ManagedTimer::start() 
 {
     if (is_running_)
@@ -42,10 +48,13 @@ void ManagedTimer::stop()
     if (wait_thread_)
     {
         auto id = wait_thread_->get_id();
-        wait_thread_->join(); 
-        std::cout << "ManagedTimer thread " << id << " was joined!" << std::endl;
-        wait_thread_.release();
-        std::cout << "In Stop() after release " << std::boolalpha << (wait_thread_? true:false) << std::endl;
+        if (wait_thread_->joinable())
+        {
+            wait_thread_->join(); 
+            std::cout << "ManagedTimer thread " << id << " was joined!" << std::endl;
+            wait_thread_.release();
+            std::cout << "In Stop() after release " << std::boolalpha << (wait_thread_? true:false) << std::endl;
+        }
         
         {   
             std::lock_guard<std::mutex> lk(mtx_);

@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <atomic>
 
 struct cancelled_error {};
 
@@ -15,7 +16,7 @@ public:
 
     void wait(int seconds);
 private:
-    bool stop_;
+    std::atomic<bool> stop_;
     std::mutex mutex_;
     std::condition_variable cond_;
 };

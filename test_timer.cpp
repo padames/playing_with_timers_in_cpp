@@ -28,13 +28,13 @@ int main() {
     the_app.run();
 
     // Timer timer{5000, [&]() { std::cout<< "done!!" << std::endl;}};
-    ManagedTimer timer1{5000, [&]() { std::cout<< "First ManagedTimer done!!" << std::endl;}};
+    ManagedTimer* timer1 = new ManagedTimer{5000, [&]() { std::cout<< "First ManagedTimer done!!" << std::endl;}};
     ManagedTimer timer2{2000, [&](){ std::cout<< "second ManagedTimer done!!" << std::endl;}};
-    t1=&timer1;
+    t1=timer1;
     t2=&timer2;
 
     signal(SIGINT, handleInterrupt);
-    timer1.start();
+    timer1->start();
     timer2.start();
 
     std::cout << " waiting for the timer to expire (s): ";
@@ -46,16 +46,18 @@ int main() {
         std::cout.flush(); 
         std::this_thread::sleep_for(std::chrono::seconds(1));
         if (count == 3) {
-            timer1.stop();
+            timer1->stop();
         }
         // if (count == 4) {
         //     timer2.start();
         // }
     }
     std::cout << std::endl;    
-    timer1.stop();
-    timer2.stop();    
-    timer1.start();
-    timer1.stop();
+    // timer1.stop();
+    // timer2.stop();    
+    // timer1.start();
+    // timer1.stop();
+    delete timer1;
+    sleep(10);
     return 0;
 }
