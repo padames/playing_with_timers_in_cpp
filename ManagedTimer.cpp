@@ -87,14 +87,10 @@ void ManagedTimer::run()
     std::cout << "thread started\n";
     try {
         long int seconds{};
-        {
-            std::unique_lock<std::mutex> lck{mtx_};
-            seconds = std::chrono::duration_cast<std::chrono::seconds>(time_).count();
-        }
-        // auto seconds = time_.count()/1000;
-        std::cout << "ManagedTimer time count in seconds " << seconds << std::endl;
+        seconds = std::chrono::duration_cast<std::chrono::seconds>(time_).count();
+        // std::cout << "ManagedTimer time count in seconds " << seconds << std::endl;
         for(long int i{seconds}; i > 0; --i) {
-            std::cout << "Thread " << wait_thread_->get_id() << " countdown at: " << '\t' << i << '\n';
+            std::cout << "Thread " << wait_thread_->get_id() << " countdown at: " << '\t' << i << std::endl;
             cpoint_.wait(1);
         }
         f_();
