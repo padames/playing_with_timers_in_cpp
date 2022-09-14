@@ -27,7 +27,7 @@ protected:
     std::unique_ptr<std::thread> wait_thread_;
     Cancellation cpoint_{};
     std::mutex mtx_;
-    std::condition_variable cv_{};
+    // std::condition_variable cv_{};
     /// @brief time to run the timer for
     std::chrono::milliseconds time_{};
     std::function <void(void)> f_;

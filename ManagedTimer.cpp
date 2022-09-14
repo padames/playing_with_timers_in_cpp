@@ -79,13 +79,18 @@ void ManagedTimer::stop()
 
 void ManagedTimer::run() 
 {
-    if (!is_running_)
-        is_running_ = true;
-
+    {
+        std::lock_guard<std::mutex> lk(mtx_);
+        if (!is_running_)
+            is_running_ = true;
+    }
     std::cout << "thread started\n";
     try {
-        std::unique_lock<std::mutex> lck{mtx_};
-        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time_).count();
+        long int seconds{};
+        {
+            std::unique_lock<std::mutex> lck{mtx_};
+            seconds = std::chrono::duration_cast<std::chrono::seconds>(time_).count();
+        }
         // auto seconds = time_.count()/1000;
         std::cout << "ManagedTimer time count in seconds " << seconds << std::endl;
         for(long int i{seconds}; i > 0; --i) {
